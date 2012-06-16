@@ -13,6 +13,10 @@
 		732629E3158BD0FA00C62B47 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 732629E1158BD0FA00C62B47 /* InfoPlist.strings */; };
 		732629E5158BD0FA00C62B47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 732629E4158BD0FA00C62B47 /* main.m */; };
 		732629E9158BD0FA00C62B47 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 732629E8158BD0FA00C62B47 /* AppDelegate.m */; };
+		732629F1158BD1BA00C62B47 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 732629F0158BD1BA00C62B47 /* ListViewController.m */; };
+		732629F4158BF49500C62B47 /* RSSChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 732629F3158BF49500C62B47 /* RSSChannel.m */; };
+		732629F7158BF90000C62B47 /* RSSItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 732629F6158BF90000C62B47 /* RSSItem.m */; };
+		732629FA158C009900C62B47 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 732629F9158C009800C62B47 /* WebViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,14 @@
 		732629E6158BD0FA00C62B47 /* BNRNerdFeed-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BNRNerdFeed-Prefix.pch"; sourceTree = "<group>"; };
 		732629E7158BD0FA00C62B47 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		732629E8158BD0FA00C62B47 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		732629EF158BD1BA00C62B47 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		732629F0158BD1BA00C62B47 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		732629F2158BF49500C62B47 /* RSSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSChannel.h; sourceTree = "<group>"; };
+		732629F3158BF49500C62B47 /* RSSChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSChannel.m; sourceTree = "<group>"; };
+		732629F5158BF90000C62B47 /* RSSItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSItem.h; sourceTree = "<group>"; };
+		732629F6158BF90000C62B47 /* RSSItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSItem.m; sourceTree = "<group>"; };
+		732629F8158C009800C62B47 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		732629F9158C009800C62B47 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +84,14 @@
 		732629DE158BD0FA00C62B47 /* BNRNerdFeed */ = {
 			isa = PBXGroup;
 			children = (
+				732629EF158BD1BA00C62B47 /* ListViewController.h */,
+				732629F0158BD1BA00C62B47 /* ListViewController.m */,
+				732629F8158C009800C62B47 /* WebViewController.h */,
+				732629F9158C009800C62B47 /* WebViewController.m */,
+				732629F5158BF90000C62B47 /* RSSItem.h */,
+				732629F6158BF90000C62B47 /* RSSItem.m */,
+				732629F2158BF49500C62B47 /* RSSChannel.h */,
+				732629F3158BF49500C62B47 /* RSSChannel.m */,
 				732629E7158BD0FA00C62B47 /* AppDelegate.h */,
 				732629E8158BD0FA00C62B47 /* AppDelegate.m */,
 				732629DF158BD0FA00C62B47 /* Supporting Files */,
@@ -153,6 +173,10 @@
 			files = (
 				732629E5158BD0FA00C62B47 /* main.m in Sources */,
 				732629E9158BD0FA00C62B47 /* AppDelegate.m in Sources */,
+				732629F1158BD1BA00C62B47 /* ListViewController.m in Sources */,
+				732629F4158BF49500C62B47 /* RSSChannel.m in Sources */,
+				732629F7158BF90000C62B47 /* RSSItem.m in Sources */,
+				732629FA158C009900C62B47 /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

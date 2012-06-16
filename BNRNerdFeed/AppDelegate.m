@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "ListViewController.h"
+#import "WebViewController.h"
 
 @implementation AppDelegate
 
@@ -17,7 +19,13 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    ListViewController *lvc = [[ListViewController alloc]init];
+    UINavigationController *uinav = [[UINavigationController alloc]initWithRootViewController:lvc];
+    WebViewController *wvc = [[WebViewController alloc]init];
+    lvc.webViewController = wvc;
+    self.window.rootViewController = uinav;
     [self.window makeKeyAndVisible];
+   
     return YES;
 }
 
