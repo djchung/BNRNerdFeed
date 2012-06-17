@@ -10,6 +10,7 @@
 #import "RSSChannel.h"
 #import "RSSItem.h"
 #import "WebViewController.h"
+#import "BNRFeedStore.h"
 
 @implementation ListViewController
 @synthesize webViewController;
@@ -18,7 +19,15 @@
 {
     self = [super initWithStyle:style];
     if (self) {
+        
+        UISegmentedControl *rssTypeControl = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"BNR", @"Apple", nil]];
+        rssTypeControl.selectedSegmentIndex = 0;
+        rssTypeControl.segmentedControlStyle = UISegmentedControlStyleBar;
+        [rssTypeControl addTarget:self action:@selector(changeType:) forControlEvents:UIControlEventValueChanged];
+        self.navigationItem.titleView = rssTypeControl;
         [self fetchEntries];
+        
+        
     }
     return self;
 }
@@ -53,53 +62,62 @@
     webViewController.navigationItem.title = entry.title;
     
 }
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [xmlData appendData:data];
-}
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)conn
-{
-    NSXMLParser *parser = [[NSXMLParser alloc]initWithData:xmlData];
-    parser.delegate = self;
-    [parser parse];
-    
-    xmlData = nil;
-    connection = nil;
-    
-    [self.tableView reloadData];
-    NSLog(@"%@\n %@\n %@\n", channel, channel.title, channel.infoString);
-}
 
-- (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error
-{
-    connection = nil;
-    xmlData = nil;
-    NSString *errorString = [NSString stringWithFormat:@"Fetch fail: %@", [error localizedDescription]];
-    
-    UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [av show];
-}
 - (void)fetchEntries
 {
-    xmlData = [[NSMutableData alloc]init];
+    UIView *currentTitleView = self.navigationItem.titleView;
+    UIActivityIndicatorView *aiView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.navigationItem.titleView = aiView;
+    [aiView startAnimating];
     
-    NSURL *url = [NSURL URLWithString:
-                  @"http://forums.bignerdranch.com/smartfeed.php?"
-                  @"limit=1_DAY&sort_by=standard&feed_type=RSS2.0&feed_style=COMPACT"];
+    void (^completionBlock)(RSSChannel *obj, NSError *err) =
+    ^(RSSChannel *obj, NSError *err){
+        //when request completes, this block is called
+        
+        self.navigationItem.titleView = currentTitleView;
+        
+        if (!err) {
+            channel = obj;
+            [self.tableView reloadData];
+        }else {
+            UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"Error" message:[err localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [av show];
+        }
+    };
     
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
-    
-    connection = [[NSURLConnection alloc]initWithRequest:req delegate:self startImmediately:YES];
+    if (rssType == ListViewControllerRSSTypeBNR) {
+        channel = [[BNRFeedStore sharedStore] fetchRSSFeedWithCompletion:^(RSSChannel *obj, NSError *err) {
+            self.navigationItem.titleView = currentTitleView;
+            
+            if (!err) {
+                int currentItemCount = [[channel items]count];
+                
+                channel = obj;
+                
+                int newItemCount = [[channel items]count];
+                
+                int itemDelta = newItemCount - currentItemCount;
+                
+                if (itemDelta >0) {
+                    NSMutableArray *rows = [NSMutableArray array];
+                    for (int i = 0; i < itemDelta; i++) {
+                        NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:0];
+                        [rows addObject:ip];
+                    }
+                    [self.tableView insertRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationTop];
+                }
+            }
+        }];
+        [self.tableView reloadData];
+    }else if (rssType == ListViewControllerRSSTypeApple){
+        [[BNRFeedStore sharedStore] fetchTopSongs:10 withCompletion:completionBlock]; 
+    }
 }
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
+- (void)changeType:(id)sender
 {
-    NSLog(@"%@ found a %@ element", self, elementName);
-    if ([elementName isEqual:@"channel"]) {
-        channel = [[RSSChannel alloc]init];
-        channel.parentParserDelegate = self;
-        [parser setDelegate:channel];
-    }
+    rssType = [sender selectedSegmentIndex];
+    [self fetchEntries];
 }
 @end
